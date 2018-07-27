@@ -1,10 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import { Jumbotron, Container } from 'reactstrap';
+import { auth, firebase } from '../../firebase';
+import { SubmissionError } from 'redux-form';
 import SignupForm from '../../components/SignupForm/SignupForm';
 
 class Signup extends Component {
   submitHandler = (values) => {
-    alert(JSON.stringify(values));
+    return auth.doCreateUserWithEmailAndPassword(values.email, values.password)
+      .then(authUser => {
+        firebase.auth.currentUser.updateProfile({
+          displayName: values.firstname + " " + values.lastname
+        }).then(() => {
+          console.log(authUser);
+        });
+      })
+      .catch(error => {
+        throw new SubmissionError({
+          _error: "Error: " + error.message
+        });
+      });
   }
 
   render() {
