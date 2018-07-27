@@ -15,7 +15,7 @@ const signupFormValidation = (values) => {
   if (!values.firstname) {
     errors.firstname = "Required";
   }
-  
+
   if (!values.lastname) {
     errors.lastname = "Required";
   }
@@ -52,21 +52,21 @@ const FormInput = ({ input, meta, label, type }) => {
   );
 };
 
-const signupForm = ({ handleSubmit, submitHandler, submitting, error }) => {
+const signupForm = ({ handleSubmit, submitHandler, submitMessage, submitError, underSubmission }) => {
   let alert = null;
 
-  if (submitting) {
+  if (submitMessage) {
     alert = (
-      <Alert disabled={true} color="success">
-        Signing up please wait...
+      <Alert color="success">
+        {submitMessage}
       </Alert>
     );
   }
 
-  if (error) {
+  if (submitError) {
     alert = (
-      <Alert disabled={true} color="danger">
-        {error}
+      <Alert color="danger">
+        {submitError}
       </Alert>
     );
   }
@@ -81,7 +81,7 @@ const signupForm = ({ handleSubmit, submitHandler, submitting, error }) => {
         <Field name="password" label="Password" type="password" component={FormInput} />
         <Field name="confirmPassword" label="Confirm Password" type="password" component={FormInput} />
         <Col sm={{ size: 10, offset: 2 }}>
-          <Button disabled={submitting} color="primary">Submit</Button>
+          <Button disabled={underSubmission} color="primary">Submit</Button>
         </Col>
       </Col>
     </Form>

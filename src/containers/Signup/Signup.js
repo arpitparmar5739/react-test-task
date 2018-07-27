@@ -1,24 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { Jumbotron, Container } from 'reactstrap';
-import { auth, firebase } from '../../firebase';
-import { SubmissionError } from 'redux-form';
 import SignupForm from '../../components/SignupForm/SignupForm';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions';
 
 class Signup extends Component {
   submitHandler = (values) => {
-    return auth.doCreateUserWithEmailAndPassword(values.email, values.password)
-      .then(authUser => {
-        firebase.auth.currentUser.updateProfile({
-          displayName: values.firstname + " " + values.lastname
-        }).then(() => {
-          console.log(authUser);
-        });
-      })
-      .catch(error => {
-        throw new SubmissionError({
-          _error: "Error: " + error.message
-        });
-      });
+    this.props.onSignUp(values);
   }
 
   render() {
@@ -28,11 +16,26 @@ class Signup extends Component {
           <h1 className="text-center">Sign Up</h1>
         </Jumbotron>
         <Container>
-          <SignupForm submitHandler={this.submitHandler} />
+          <SignupForm
+            submitHandler={this.submitHandler}
+            submitError={this.props.error}
+            submitMessage={this.props.message}
+            underSubmission={this.props.submitting}
+          />
         </Container>
       </Fragment>
     );
   }
 }
 
-export default Signup;
+const mapStateToProps = (state) => ({
+  error: state.auth.error,
+  message: state.auth.message,
+  submitting: state.auth.submitting
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSignUp: (user) => dispatch(actions.auth(user, true))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
