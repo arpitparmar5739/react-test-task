@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import { Jumbotron } from 'reactstrap';
-import './App.css';
+import { Switch, Route } from 'react-router-dom';
+import Welcome from './components/Welcome/Welcome';
+import { SIGN_UP } from './constants/routes';
+import Signup from './containers/Signup/Signup';
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Jumbotron>
-          <h1>Welcome to React Test Application</h1>
-        </Jumbotron>
+      <div>
+        <Switch>
+          <Route path={SIGN_UP} component={Signup} />
+          <Route path="/" component={Welcome} />
+        </Switch>
       </div>
     );
   }
