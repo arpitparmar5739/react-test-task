@@ -55,8 +55,8 @@ const NavbarContainer = (props) => {
 
   return (
     <div>
-      <Navbar dark color="dark" expand="md">
-        <NavbarBrand tag={Link} to={ROOT}>Awesome App</NavbarBrand>
+      <Navbar fixed={`top`} dark color="dark" expand="md">
+        <NavbarBrand tag={Link} to={ROOT}>{props.displayName}</NavbarBrand>
         <NavbarToggler onClick={props.toggle} />
         {collapse}
       </Navbar>

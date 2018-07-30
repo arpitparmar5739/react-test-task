@@ -39,7 +39,11 @@ class App extends Component {
 
     return (
       <div>
-        <Navbar isAuthenticated={this.props.isAuthenticated} activeLink={this.props.location.pathname} />
+        <Navbar
+          isAuthenticated={this.props.isAuthenticated}
+          activeLink={this.props.location.pathname}
+          displayName={this.props.displayName || "Awesome App"} 
+        />
         {routes}
       </div>
     );
@@ -48,7 +52,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
   authRedirectPath: state.auth.authRedirectPath,
-  isAuthenticated: !!state.auth.idToken
+  isAuthenticated: !!state.auth.idToken,
+  displayName: state.auth.displayName
 });
 
 const mapDispatchToProps = (dispatch) => ({

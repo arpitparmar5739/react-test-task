@@ -147,6 +147,8 @@ export const authCheckState = () => {
         const displayName = localStorage.getItem('displayName');
         dispatch(authSuccess(idToken, localId, displayName));
         dispatch(authRedirectPath(ROOT + displayName.split(" ").join("").toLowerCase()));
+      } else {
+        dispatch(authLogout());
       }
     }
   }
